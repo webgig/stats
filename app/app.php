@@ -5,8 +5,12 @@ use Helpers\Stat;
 defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
 
 class App{
-    private static $__args = array();
 
+    private static function __autoload(){
+        spl_autoload_register(function ($class) {
+            include  __DIR__ . DS. str_replace("\\","/", $class). '.php';
+        });
+    }
 
     public static function bootstrap(){
 
@@ -15,6 +19,21 @@ class App{
 
         self::__autoload();
 
+    }
+
+}
+
+
+class Shell{
+    private static $__args = array();
+
+
+    private static function __parseArgs($args){
+
+        if($args){
+            self::$__args = $args;
+            array_shift(self::$__args); // remove first  value
+        }
     }
 
 
@@ -62,22 +81,6 @@ class App{
         }
 
     }
-
-    private static function __autoload(){
-        spl_autoload_register(function ($class) {
-            include  __DIR__ . DS. str_replace("\\","/", $class). '.php';
-        });
-    }
-
-
-    private static function __parseArgs($args){
-
-        if($args){
-            self::$__args = $args;
-            array_shift(self::$__args); // remove first  value
-        }
-    }
-
 
     private static function __usageHelp()
     {

@@ -8,5 +8,5 @@ require_once "app/app.php";
 App::bootstrap();
 
 // Run the app
-App::run();
+Shell::run();
 ?>
